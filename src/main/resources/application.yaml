@@ -1,0 +1,18 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: cards-application-validator
+  kafka:
+    bootstrap-servers:
+      - "localhost:19092"
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        schema:
+          registry:
+            url: "http://localhost:8081"
+        specific:
+          avro:
+            reader: true
