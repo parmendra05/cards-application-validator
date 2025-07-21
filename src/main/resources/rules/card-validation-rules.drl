@@ -1,0 +1,13 @@
+package com.banking.cards.application.rules;
+
+import com.banking.cards.application.avro.ApplicationDataAvro;
+
+global java.util.List validationMessages;
+
+rule "SSN must be in valid format"
+    when
+        $data: ApplicationDataAvro(socialSecurityNumber not matches "\\d{3}-\\d{2}-\\d{4}")
+    then
+        validationMessages.add("SSN number must be in valid format");
+end
+

@@ -1,0 +1,38 @@
+package com.banking.cards.application.service.impl;
+
+import com.banking.cards.application.avro.ApplicationDataAvro;
+import com.banking.cards.application.service.CardsApplicationValidatorService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class CardsApplicationValidatorServiceImpl implements CardsApplicationValidatorService {
+
+    private final KieContainer kieContainer;
+
+    @Override
+    public void validateCardsApplicationData(ApplicationDataAvro applicationDataAvro) {
+        KieSession kieSession = null;
+        List<String> validationMessages = new ArrayList<>();
+        try{
+            kieSession = kieContainer.newKieSession();
+            kieSession.setGlobal("validationMessages", validationMessages);
+            kieSession.insert(applicationDataAvro);
+            kieSession.fireAllRules();
+        }catch(Exception e){
+            log.error("Error during drools validation for the correlation id:{} ", applicationDataAvro.getCorrelationID());
+        }finally{
+            if(kieSession != null){
+                kieSession.dispose();
+            }
+        }
+    }
+}
