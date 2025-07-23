@@ -16,3 +16,13 @@ spring:
         specific:
           avro:
             reader: true
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      properties:
+        schema:
+          registry:
+            url: "http://localhost:8081"
+topics:
+  application-submitted-event: vnd_cards_application_submitted_event
+  application-validated-event: vnd_cards_application_validated_event

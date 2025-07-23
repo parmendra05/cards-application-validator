@@ -1,6 +1,7 @@
 package com.banking.cards.application.rules;
 
 import com.banking.cards.application.avro.ApplicationDataAvro;
+import java.util.Random;
 
 global java.util.List validationMessages;
 
@@ -10,4 +11,39 @@ rule "SSN must be in valid format"
     then
         validationMessages.add("SSN number must be in valid format");
 end
+
+rule "GOLD card type requires grossAnnualIncome > 500000"
+    when
+        $data: ApplicationDataAvro(cardType == "GOLD", grossAnnualIncome<=500000)
+    then
+        validationMessages.add("For GOLD card type, gross annual income must be greater than 500000");
+end
+
+rule "Reject if credit score is less than 600"
+    when
+        eval(generateRandomCreditScore() < 600)
+    then
+        validationMessages.add("Credit score is less than 600");
+end
+
+function Integer generateRandomCreditScore() {
+    Random random = new Random();
+    int creditScore;
+
+    double randomValue = random.nextDouble();
+
+    if(randomValue < 0.4){
+        //40% chance to generate score less than 600
+        creditScore = random.nextInt(600);
+    }else{
+        // 60% chance to generate score between 600 and 1000
+        creditScore = 600 + random.nextInt(401);
+    }
+    return creditScore;
+
+}
+
+
+
+
 
