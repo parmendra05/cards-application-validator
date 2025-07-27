@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -54,10 +55,12 @@ public class CardsApplicationValidatorServiceImpl implements CardsApplicationVal
         applicationValidationResultEvent.setCorrelationID(applicationDataAvro.getCorrelationID());
         if(!validationMessages.isEmpty()){
             applicationValidationResultEvent.setApplicationStatus("REJECTED");
-            applicationValidationResultEvent.setValidationMessages(validationMessages);
+            applicationValidationResultEvent.setValidationMessages(validationMessages.stream().map(message -> (CharSequence)message).toList());
+
         }else{
             applicationValidationResultEvent.setApplicationStatus("APPROVED");
         }
+        log.info("Message : {}", applicationValidationResultEvent.getApplicationStatus());
         return applicationValidationResultEvent;
     }
 }

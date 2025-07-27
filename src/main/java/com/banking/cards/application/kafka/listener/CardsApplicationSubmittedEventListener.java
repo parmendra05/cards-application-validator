@@ -15,7 +15,7 @@ public class CardsApplicationSubmittedEventListener {
 
     private final CardsApplicationValidatorService cardsApplicationValidatorService;
 
-    @KafkaListener(topics = "vnd_cards_application_submitted_event", groupId = "application-submitted-vent-group")
+    @KafkaListener(topics = "vnd_cards_application_submitted_event", groupId = "application-submitted-event-group")
     public void getData(ConsumerRecord<String, ApplicationDataAvro> consumerRecord){
         log.info("Received Application Submitted Event: {}", consumerRecord.value().getCorrelationID());
         ApplicationDataAvro applicationDataAvro = consumerRecord.value();

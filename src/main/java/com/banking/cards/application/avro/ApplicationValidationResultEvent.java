@@ -10,8 +10,6 @@ import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
-import java.util.List;
-
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class ApplicationValidationResultEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
@@ -142,7 +140,7 @@ public class ApplicationValidationResultEvent extends org.apache.avro.specific.S
    * Sets the value of the 'validationMessages' field.
    * @param value the value to set.
    */
-  public void setValidationMessages(List<String> value) {
+  public void setValidationMessages(java.util.List<java.lang.CharSequence> value) {
     this.validationMessages = value;
   }
 
